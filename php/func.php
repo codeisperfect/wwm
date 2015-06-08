@@ -122,4 +122,45 @@
 		}
 		return $outp;
 	}
+	function resizeimg($filename,$tosave, $max_width, $max_height){
+		$imginfo=getimagesize($filename);
+		list($orig_width, $orig_height) = $imginfo;
+		$type=$imginfo[2];
+
+
+		$crop_width=$orig_width;
+		$crop_height=$orig_height;
+		if($orig_width*$max_height <= $orig_height*$max_width){
+			$crop_height=$orig_width*$max_height/$max_width;
+		}
+		else{
+			$crop_width=$orig_height*$max_width/$max_height;
+		}
+
+		$image_p = imagecreatetruecolor($max_width, $max_height);
+		switch($type){
+			case "1": 
+				$image = imagecreatefromgif($filename); 
+				$transparent = imagecolorallocatealpha($image_p, 0, 0, 0, 127);
+				imagefill($image_p, 0, 0, $transparent);
+				imagealphablending($image_p, true); 				
+				break;
+			case "2": $image = imagecreatefromjpeg($filename);break;
+			case "3": 
+				$image = imagecreatefrompng($filename);
+				imagealphablending($image_p, false);
+				imagesavealpha($image_p, true);
+				break;
+			default:  $image = imagecreatefromjpeg($filename);
+		}
+		imagecopyresampled($image_p, $image, 0, 0, ($orig_width-$crop_width)/2, ($orig_height-$crop_height)/2, $max_width, $max_height, $crop_width, $crop_height);
+
+		switch($type){
+			case "1": imagegif($image_p,$tosave); break;
+			case "2": imagejpeg($image_p,$tosave,100); break;
+			case "3": imagepng($image_p,$tosave,0);break;
+			default: imagejpeg($image_p,$tosave,100);
+		}
+	}
+
 ?>
