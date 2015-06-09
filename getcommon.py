@@ -30,10 +30,10 @@ def flist():
 	return list( ("../wwm/"+i,i) for i in commonfiles)
 
 def copyhere():
-	print ";".join(list( "cp "+f1+" "+f2 for (f1,f2) in flist()))
+	print elc(";".join(list( "cp "+f1+" "+f2 for (f1,f2) in flist())))
 
 def copythere():
-	print ";".join(list( "cp "+f2+" "+f1 for (f1,f2) in flist()))
+	print elc(";".join(list( "cp "+f2+" "+f1 for (f1,f2) in flist())))
 
 def diffhere():
 	print elc(";".join(list("diff "+f1+' '+f2 for (f1,f2) in flist() )))
