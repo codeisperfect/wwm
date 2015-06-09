@@ -155,12 +155,21 @@
 		}
 		imagecopyresampled($image_p, $image, 0, 0, ($orig_width-$crop_width)/2, ($orig_height-$crop_height)/2, $max_width, $max_height, $crop_width, $crop_height);
 
-		switch($type){
-			case "1": imagegif($image_p,$tosave); break;
-			case "2": imagejpeg($image_p,$tosave,100); break;
-			case "3": imagepng($image_p,$tosave,0);break;
+		$ext=pathinfo($tosave, PATHINFO_EXTENSION);
+
+		switch($ext){
+			case "gif": imagegif($image_p,$tosave); break;
+			case "jpg": imagejpeg($image_p,$tosave,100); break;
+			case "jpeg": imagejpeg($image_p,$tosave,100); break;
+			case "png": imagepng($image_p,$tosave,0);break;
 			default: imagejpeg($image_p,$tosave,100);
 		}
 	}
-
+	function genfilearr($name,$len,$start=1){
+		$outp=array();
+		for($i=$start;$i<$start+$len;$i++){
+			$outp[]=str_replace("%d", $i, $name);
+		}
+		return $outp;
+	}
 ?>
