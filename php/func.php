@@ -12,6 +12,15 @@
 			Sql::init($DB);
 		}
 	}
+	function isget($key){
+		return isset($_GET[$key]);
+	}
+	function ispost($key){
+		return isset($_POST[$key]);
+	}
+	function isses($key){
+		return isset($_SESSION[$key]);
+	}
 	function closedb(){
 		global $DB;
 		if($DB!=null)
@@ -171,5 +180,11 @@
 			$outp[]=str_replace("%d", $i, $name);
 		}
 		return $outp;
+	}
+	function getepm($inp=array()){
+		return json_encode(Fun::mergeifunset($_POST,$inp));
+	}
+	function getegm(){
+		return json_encode(Fun::mergeifunset($_GET,$inp));
 	}
 ?>
