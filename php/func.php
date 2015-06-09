@@ -12,6 +12,17 @@
 			Sql::init($DB);
 		}
 	}
+	function closedb(){
+		global $DB;
+		if($DB!=null)
+			$DB->close();
+	}
+	function getval($key,$arr,$default=null){
+		 return (isset($arr[$key]) ? $arr[$key] : $default );
+	}
+	function post($key,$default=null){
+		return getval($key,$_POST,$default);
+	}
 	function isget($key){
 		return isset($_GET[$key]);
 	}
@@ -21,19 +32,8 @@
 	function isses($key){
 		return isset($_SESSION[$key]);
 	}
-	function closedb(){
-		global $DB;
-		if($DB!=null)
-			$DB->close();
-	}
-	function getval($key,$arr){
-		 return (isset($arr[$key]) ? $arr[$key] : null );
-	}
-	function post($key){
-		return getval($key,$_POST);
-	}
-	function get($key){
-		return getval($key,$_GET);
+	function get($key,$default=null){
+		return getval($key,$_GET,$default);
 	}
 	function sets($key,$val){
 		$_SESSION[$key]=$val;
@@ -41,10 +41,13 @@
 	function gets($key){
 		return $_SESSION[$key];
 	}
+
+
 	function load_view($view,$inp=array()){
-		global $view_default;
+		global $view_default,$_ginfo;
 		if(isset($view_default[$view]))
 			$inp=Fun::mergeifunset($inp,$view_default[$view]);
+		$inp=Fun::setifunset($inp,"page",$_ginfo["page"]);
 		foreach($inp as $key=>$val){
 			$$key=$val;
 		}
@@ -187,4 +190,20 @@
 	function getegm(){
 		return json_encode(Fun::mergeifunset($_GET,$inp));
 	}
+	function lastelm($arr){
+		if(count($arr)==0)
+			return null;
+		else
+			return $arr[count($arr)-1];
+	}
+	function firstelm($arr){
+		if(count($arr)==0)
+			return null;
+		else
+			return $arr[0];
+	}
+	function curfilename(){
+		return firstelm(explode(".",lastelm(explode("/",$_SERVER['SCRIPT_FILENAME']))));
+	}
+
 ?>
