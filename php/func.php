@@ -205,5 +205,11 @@
 	function curfilename(){
 		return firstelm(explode(".",lastelm(explode("/",$_SERVER['SCRIPT_FILENAME']))));
 	}
+	function dict2keyval($arr){
+		$outp=array();
+		foreach($arr as $key=>$val)
+			$outp[]=array("key"=>$key,"val"=>$val);
+		return $outp;
+	}
 
 ?>
