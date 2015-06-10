@@ -103,5 +103,13 @@ class Sqle extends Sql{
 		}
 		return array("qoutp"=>$qoutp,"min"=>$min,"max"=>$max);
 	}
+	public static function getA($query,$param_array=array()){
+		// $real_param_array=array();
+		// $params="";
+		// foreach($param_array as $key=>$val){
+		// 	if(strpos($query,"{".$key."}")!==false){
+		// 	}
+		// }
+	}
 }
 ?>
